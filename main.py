@@ -3,6 +3,7 @@ from enemy import Enemies
 from image_effects import *
 from weapons import Projectile
 from player import Player
+import random
 
 pygame.init()
 
@@ -17,6 +18,7 @@ clock = pygame.time.Clock()
 
 # Score
 score = 0
+
 
 def redraw_game():
     # Creating the background
@@ -43,7 +45,12 @@ player = Player(0, 165, 64, 64)
 NUMBER_OF_ENEMY = 5
 goblins = []
 for i in range(NUMBER_OF_ENEMY):
-    goblin = Enemies(100 + i * 140, 159, 64, 64, 250 + i * 140)
+    goblin = Enemies(x=100 + i * 140,
+                     y=159,
+                     width=64,
+                     height=64,
+                     end=250 + i * 140,
+                     velocity=random.randint(1, 5))
     goblins.append(goblin)
 
 for goblin in goblins:  # Draw all goblins
@@ -76,7 +83,7 @@ while run:
     # shooting and cleaning the bullet on the screen
     for bullet in bullets[:]:
         for goblin in goblins:
-            if goblin.alive:  
+            if goblin.alive:
                 if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
                     if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
                         if goblin.alive:
@@ -84,7 +91,7 @@ while run:
                             score += 10
                             bullets.pop(bullets.index(bullet))
                             break
-        
+
         if bullet in bullets:
             if 0 < bullet.x < 853:
                 bullet.x += bullet.vel
@@ -94,7 +101,7 @@ while run:
     # key press and checking the boundary
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_SPACE] and shoot_cd == 0:
+    if keys[pygame.K_l] and shoot_cd == 0:
         bullet_sound.play()
         # make sure the direction of the bullet
         if player.left:
@@ -129,7 +136,7 @@ while run:
         player.walk_count = 0
 
     if not (player.is_jump):  # determine is jumping or not
-        if keys[pygame.K_w]:
+        if keys[pygame.K_SPACE]:
             player.is_jump = True
     else:  # what happens actually jumping
         # make sure it follow the quadratic curve(moving down)

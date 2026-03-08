@@ -12,14 +12,14 @@ class Enemies():
     death = pygame.image.load(
         "images\\Goblin\\Goblin\\PNG\\PNG Sequences\\Dying\\0_Goblin_Dying_014.png")
 
-    def __init__(self, x, y, width, height, end):
+    def __init__(self, x, y, width, height, end, velocity):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.path = [x, end]
         self.walkcount = 0
-        self.vel = 5
+        self.vel = velocity
         self.hitbox = (self.x+15, self.y, 32, 50)
         self.health = 60
         self.visible = True
