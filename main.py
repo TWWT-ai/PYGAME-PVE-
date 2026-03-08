@@ -82,22 +82,38 @@ while run:
 
     # shooting and cleaning the bullet on the screen
     for bullet in bullets[:]:
-        for goblin in goblins:
-            if goblin.alive:
-                if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
-                    if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
-                        if goblin.alive:
+        if bullet.type == "dot":
+            for goblin in goblins:
+                if goblin.alive:
+                    if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
+                        if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
+                            if goblin.alive:
+                                goblin.hit()
+                                score += 10
+                                bullets.pop(bullets.index(bullet))
+                                break
+
+            if bullet in bullets:
+                if 0 < bullet.x < 853:
+                    bullet.x += bullet.vel
+                else:
+                    bullets.remove(bullet)
+        elif bullet.type == "beam" and player.down:
+            for goblin in goblins:
+                if goblin.alive:
+                    if abs(goblin.hitbox[1] - bullet.y) < goblin.hitbox[3]:
+
+                        if bullet.facing == 1 and goblin.x > bullet.x:
                             goblin.hit()
                             score += 10
-                            bullets.pop(bullets.index(bullet))
-                            break
 
-        if bullet in bullets:
-            if 0 < bullet.x < 853:
-                bullet.x += bullet.vel
-            else:
+                        if bullet.facing == -1 and goblin.x < bullet.x:
+                            goblin.hit()
+                            score += 10
+
+            bullet.life -= 1
+            if bullet.life <= 0:
                 bullets.remove(bullet)
-
     # key press and checking the boundary
     keys = pygame.key.get_pressed()
 
@@ -110,10 +126,13 @@ while run:
             facing = 1
 
         # drawing the bullet
-        if len(bullets) < 10:
-            bullets.append(Projectile(round(player.x + player.width // 2),
-                           round(player.y + player.height // 2), 6, (0, 0, 0), facing))
-
+        if len(bullets) < 5:
+            if player.down:
+                bullets.append(Projectile(round(player.x + player.width // 2),
+                            round(player.y + player.height // 2), 6, facing, "beam"))
+            else:
+                bullets.append(Projectile(round(player.x + player.width // 2),
+                            round(player.y + player.height // 2), 6, facing, "dot"))
         shoot_cd = 1
 
     # walking left
@@ -122,6 +141,7 @@ while run:
         player.left = True
         player.right = False
         player.standing = False
+        player.down = False
         player.walk_count = (player.walk_count + 1) % len(frames)
 
     # walking right
@@ -130,9 +150,18 @@ while run:
         player.left = False
         player.right = True
         player.standing = False
+        player.down = False
         player.walk_count = (player.walk_count + 1) % len(frames)
+        
+    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and player.x < screen_width - player.width:
+        player.left = False
+        player.right = False
+        player.standing = False
+        player.down = True
+        
     else:
         player.standing = True
+        player.down = False
         player.walk_count = 0
 
     if not (player.is_jump):  # determine is jumping or not

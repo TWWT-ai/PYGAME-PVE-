@@ -38,6 +38,9 @@ frames_jump = slicing(jump, 6, 64, 64)
 food = pygame.image.load("images\\PixelFishes\\PixelFishes.png")
 frames_food = slicing(food, 1, 32, 32)
 
+down = pygame.image.load("images\\64x64\\top-down\\attack_5.png")
+frames_down = slicing(char, 6, 64, 64)
+
 bullet_sound = pygame.mixer.Sound("Sounds\\mixkit-little-cat-pain-meow-87.wav")
 hit_sound = pygame.mixer.Sound("Sounds\\anime-ahh.wav")
 bg_music = pygame.mixer.music.load(

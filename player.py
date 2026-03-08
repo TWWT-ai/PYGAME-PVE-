@@ -11,6 +11,7 @@ class Player(object):
         self.jump_count = 8
         self.left = False
         self.right = False
+        self.down = False
         self.walk_count = 0
         self.standing = True
         self.hitbox = (self.x+10, self.y, 45, 60)
@@ -40,11 +41,12 @@ class Player(object):
         else:
             if self.right:
                 win.blit(frames_char[self.walk_count], (self.x, self.y))
-            else:
+            elif self.left:
                 flipped_frame = pygame.transform.flip(
                     frames_char[self.walk_count], True, False)
                 win.blit(flipped_frame, (self.x, self.y))
-
+            else:
+                win.blit(frames_down[self.walk_count], (self.x, self.y))
         self.hitbox = (self.x+10, self.y, 45, 60)
         # pygame.draw.rect(win, (255, 0, 0), self.hitbox, 2)
 
