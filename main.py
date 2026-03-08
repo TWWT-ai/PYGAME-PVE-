@@ -28,7 +28,8 @@ def redraw_game():
 
     # Creating the player and enemy
     player.draw(win)
-    goblin.draw(win)
+    for goblin in goblins:
+        goblin.draw(win)
 
     # drawing the bullet
     for bullet in bullets:
@@ -54,11 +55,12 @@ while run:
     clock.tick(27)
 
     # player and enemy collision
-    if goblin.alive:
-        if player.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and player.hitbox[1] + player.hitbox[3] > goblin.hitbox[1]:
-            if player.hitbox[0] + player.hitbox[2] > goblin.hitbox[0] and player.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
-                player.hit(win)
-                score -= 10
+    for goblin in goblins:
+        if goblin.alive:
+            if player.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and player.hitbox[1] + player.hitbox[3] > goblin.hitbox[1]:
+                if player.hitbox[0] + player.hitbox[2] > goblin.hitbox[0] and player.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
+                    player.hit(win)
+                    score -= 10
 
     # shooting cooldown
     if shoot_cd > 0:
@@ -72,18 +74,22 @@ while run:
             run = False
 
     # shooting and cleaning the bullet on the screen
-    for bullet in bullets:
-        if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
-            if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
-                if goblin.alive:
-                    goblin.hit()
-                    score += 10
-                    bullets.pop(bullets.index(bullet))
-
-        if 0 < bullet.x < 853:
-            bullet.x += bullet.vel
-        else:
-            bullets.pop(bullets.index(bullet))
+    for bullet in bullets[:]:
+        for goblin in goblins:
+            if goblin.alive:  
+                if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
+                    if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
+                        if goblin.alive:
+                            goblin.hit()
+                            score += 10
+                            bullets.pop(bullets.index(bullet))
+                            break
+        
+        if bullet in bullets:
+            if 0 < bullet.x < 853:
+                bullet.x += bullet.vel
+            else:
+                bullets.remove(bullet)
 
     # key press and checking the boundary
     keys = pygame.key.get_pressed()
