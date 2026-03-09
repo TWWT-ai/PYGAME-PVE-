@@ -38,7 +38,6 @@ def redraw_game():
         bullet.draw(win)
     pygame.display.update()
 
-
 # main loop
 font = pygame.font.SysFont("Arial", 30, True, False)
 player = Player(0, 165, 64, 64)
@@ -55,7 +54,7 @@ for i in range(NUMBER_OF_ENEMY):
 
 for goblin in goblins:  # Draw all goblins
     goblin.draw(win)
-shoot_cd = 0
+
 bullets = []
 run = True
 while run:
@@ -68,12 +67,6 @@ while run:
                 if player.hitbox[0] + player.hitbox[2] > goblin.hitbox[0] and player.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
                     player.hit(win)
                     score -= 10
-
-    # shooting cooldown
-    if shoot_cd > 0:
-        shoot_cd += 1
-    if shoot_cd > 3:
-        shoot_cd = 0
 
     # Ending the game
     for event in pygame.event.get():
@@ -114,75 +107,11 @@ while run:
             bullet.life -= 1
             if bullet.life <= 0:
                 bullets.remove(bullet)
+                
     # key press and checking the boundary
     keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_l] and shoot_cd == 0:
-        bullet_sound.play()
-        # make sure the direction of the bullet
-        if player.left:
-            facing = -1
-        else:
-            facing = 1
-
-        # drawing the bullet
-        if len(bullets) < 5:
-            if player.down:
-                bullets.append(Projectile(round(player.x + player.width // 2),
-                                          round(player.y + player.height // 2), 6, facing, "beam"))
-            else:
-                bullets.append(Projectile(round(player.x + player.width // 2),
-                                          round(player.y + player.height // 2), 6, facing, "basic_attack"))
-        shoot_cd = 1
-
-    # walking left
-    if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and player.x > 0:
-        player.x -= player.vel
-        player.left = True
-        player.right = False
-        player.standing = False
-        player.down = False
-        player.walk_count = (player.walk_count + 1) % len(frames)
-
-    # walking right
-    elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and player.x < screen_width - player.width:
-        player.x += player.vel
-        player.left = False
-        player.right = True
-        player.standing = False
-        player.down = False
-        player.walk_count = (player.walk_count + 1) % len(frames)
-
-    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        player.left = False
-        player.right = False
-        player.standing = True
-        player.down = True
-        player.walk_count = (player.walk_count + 1) % len(frames_down)
-    else:
-        player.standing = True
-        player.down = False
-        player.walk_count = 0
-
-    if not (player.is_jump):  # determine is jumping or not
-        if keys[pygame.K_SPACE]:
-            player.is_jump = True
-    else:  # what happens actually jumping
-        # make sure it follow the quadratic curve(moving down)
-        if player.jump_count >= -8:
-            negative = 1
-            if player.jump_count < 0:  # To let the character move down
-                negative = -1
-            player.y -= (player.jump_count ** 2) * 0.5 * negative
-            player.jump_count -= 1
-        else:  # finish jumping
-            player.is_jump = False
-            player.jump_count = 8
-
-    player.walk_count = (player.walk_count + 1) % len(frames)
-    player.walk_count = (player.walk_count + 1) % len(frames_char)
-    player.walk_count = (player.walk_count + 1) % len(frames_jump)
-
+    player.move(keys, screen_width)
+    player.shoot(keys, bullets)
     redraw_game()
 
 pygame.quit()
