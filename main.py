@@ -129,10 +129,10 @@ while run:
         if len(bullets) < 5:
             if player.down:
                 bullets.append(Projectile(round(player.x + player.width // 2),
-                            round(player.y + player.height // 2), 6, facing, "beam"))
+                                          round(player.y + player.height // 2), 6, facing, "beam"))
             else:
                 bullets.append(Projectile(round(player.x + player.width // 2),
-                            round(player.y + player.height // 2), 6, facing, "dot"))
+                                          round(player.y + player.height // 2), 6, facing, "dot"))
         shoot_cd = 1
 
     # walking left
@@ -152,13 +152,13 @@ while run:
         player.standing = False
         player.down = False
         player.walk_count = (player.walk_count + 1) % len(frames)
-        
-    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and player.x < screen_width - player.width:
+
+    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
         player.left = False
         player.right = False
-        player.standing = False
+        player.standing = True
         player.down = True
-        
+        player.walk_count = (player.walk_count + 1) % len(frames_down)
     else:
         player.standing = True
         player.down = False

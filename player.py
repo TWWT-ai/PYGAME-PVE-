@@ -20,7 +20,9 @@ class Player(object):
         if self.walk_count + 1 >= 27:
             self.walk_count = 0
 
-        if not self.standing:
+        if self.down:
+            win.blit(frames_down[self.walk_count % len(frames_down)], (self.x, self.y))
+        elif not self.standing:
             if self.is_jump:  # keep the jumping animation going if you press other key
                 if self.left:
                     current_jump_frame = frames_jump[self.jump_count % len(
@@ -38,6 +40,8 @@ class Player(object):
                 win.blit(flipped_frame, (self.x, self.y))
             elif self.right:
                 win.blit(frames[self.walk_count], (self.x, self.y))
+            else:
+                win.blit(frames_char[0], (self.x, self.y))
         else:
             if self.right:
                 win.blit(frames_char[self.walk_count], (self.x, self.y))
@@ -46,9 +50,8 @@ class Player(object):
                     frames_char[self.walk_count], True, False)
                 win.blit(flipped_frame, (self.x, self.y))
             else:
-                win.blit(frames_down[self.walk_count], (self.x, self.y))
+                win.blit(frames_char[0], (self.x, self.y))
         self.hitbox = (self.x+10, self.y, 45, 60)
-        # pygame.draw.rect(win, (255, 0, 0), self.hitbox, 2)
 
     def hit(self, win):
         self.x = 0
