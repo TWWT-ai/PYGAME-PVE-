@@ -82,7 +82,7 @@ while run:
 
     # shooting and cleaning the bullet on the screen
     for bullet in bullets[:]:
-        if bullet.type == "dot":
+        if bullet.type == "basic_attack":
             for goblin in goblins:
                 if goblin.alive:
                     if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
@@ -132,7 +132,7 @@ while run:
                                           round(player.y + player.height // 2), 6, facing, "beam"))
             else:
                 bullets.append(Projectile(round(player.x + player.width // 2),
-                                          round(player.y + player.height // 2), 6, facing, "dot"))
+                                          round(player.y + player.height // 2), 6, facing, "basic_attack"))
         shoot_cd = 1
 
     # walking left
