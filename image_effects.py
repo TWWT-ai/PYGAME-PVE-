@@ -46,3 +46,9 @@ hit_sound = pygame.mixer.Sound("Sounds\\anime-ahh.wav")
 bg_music = pygame.mixer.music.load(
     "Sounds\\SSvid.net--Twinkle-Twinkle-Little-StarChildren-s-Song-Music-Box.mp3")
 pygame.mixer.music.play(-1)
+
+main_menu_bg = pygame.image.load("images\\2306.w026.n002.3506B.p1.3506.jpg")
+main_menu_bg = pygame.transform.scale(main_menu_bg, (853, 213))
+
+default_button = pygame.image.load("images\\button_template.png")
+default_button = pygame.transform.scale(main_menu_bg, (200, 100))

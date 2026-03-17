@@ -4,12 +4,14 @@ from image_effects import *
 from weapons import Projectile
 from player import Player
 import random
+from main_menu import MainMenu
 
 pygame.init()
 
 # window
-win = pygame.display.set_mode((853, 213))
-screen_width = 853
+SCREEN_WIDTH = 853
+SCREEN_HEIGHT = 213
+win = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # name
 pygame.display.set_caption("PyGame")
 
@@ -38,9 +40,11 @@ def redraw_game():
         bullet.draw(win)
     pygame.display.update()
 
+
 # main loop
 font = pygame.font.SysFont("Arial", 30, True, False)
 player = Player(0, 165, 64, 64)
+main_menu = MainMenu(SCREEN_WIDTH, SCREEN_HEIGHT)
 NUMBER_OF_ENEMY = 5
 goblins = []
 for i in range(NUMBER_OF_ENEMY):
@@ -59,6 +63,8 @@ bullets = []
 run = True
 while run:
     clock.tick(27)
+
+    main_menu.main_menu(win=win)
 
     # player and enemy collision
     for goblin in goblins:
@@ -107,10 +113,10 @@ while run:
             bullet.life -= 1
             if bullet.life <= 0:
                 bullets.remove(bullet)
-                
+
     # key press and checking the boundary
     keys = pygame.key.get_pressed()
-    player.move(keys, screen_width)
+    player.move(keys, SCREEN_WIDTH)
     player.shoot(keys, bullets)
     redraw_game()
 
