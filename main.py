@@ -18,9 +18,10 @@ pygame.display.set_caption("PyGame")
 # character measurements
 clock = pygame.time.Clock()
 
-# Score
+# Game variables
 score = 0
-
+game_running = False
+menu_state = "main"
 
 def redraw_game():
     # Creating the background
@@ -61,10 +62,21 @@ for goblin in goblins:  # Draw all goblins
 
 bullets = []
 run = True
+
 while run:
     clock.tick(27)
 
-    main_menu.main_menu(win=win)
+    if game_running == False:
+        if menu_state == "main": 
+            if main_menu.main_menu(win=win):
+                game_running = True
+    else:
+        redraw_game()
+        
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                game_running = False
 
     # player and enemy collision
     for goblin in goblins:

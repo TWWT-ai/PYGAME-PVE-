@@ -11,10 +11,10 @@ class Button():
         self.font = font
         self.base_colour = base_colour
         self.hovering_colour = hovering_colour
-        self.text = text_font.render("MAIN MENU", True, (255, 0, 0))
+        self.text = text_font.render(self.text_input, True, (255, 0, 0))
         if self.image is not None:
             self.image = self.text
-        self.rectangle = self.image.get_rect(center=(self.x, self.y))
+        self.rectangle = self.image.get_rect(center=(self.x, self.y)) 
         self.text_rectangle = self.text.get_rect(center=(self.x, self.y))
         
     def update(self, win):

@@ -12,11 +12,25 @@ class MainMenu:
         pygame.display.set_caption("Menu")
 
         MENU_FONT = pygame.font.SysFont("Arial", 30, True, False)
-        MENU_RECT = MENU_FONT.render("MAIN MENU", True, (255, 0, 0))
+        MENU_RECT = MENU_FONT.render("Cat Adventure", True, (255, 0, 0))
         PLAY_BTN = Button(image=default_button,
                           x=self.width / 2,
                           y=0 + 40,
                           text_input="Play",
+                          base_colour=(255, 0, 0),
+                          hovering_colour=(255, 0, 100))
+        
+        OPTION_BTN = Button(image=default_button,
+                          x=self.width / 2,
+                          y=0 + 80,
+                          text_input="Option",
+                          base_colour=(255, 0, 0),
+                          hovering_colour=(255, 0, 100))
+        
+        QUIT_BTN = Button(image=default_button,
+                          x=self.width / 2,
+                          y=0 + 120,
+                          text_input="Quit",
                           base_colour=(255, 0, 0),
                           hovering_colour=(255, 0, 100))
 
@@ -26,9 +40,9 @@ class MainMenu:
 
             win.blit(MENU_RECT, (self.width / 2 - MENU_RECT.get_width() / 2, 0))
 
-            # for button in [PLAY_BTN]:
-            PLAY_BTN.change_colour(MOUSE_POS)
-            PLAY_BTN.update(win)
+            for button in [PLAY_BTN, OPTION_BTN, QUIT_BTN]:
+                button.change_colour(MOUSE_POS)
+                button.update(win)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -36,6 +50,18 @@ class MainMenu:
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BTN.check_for_input(MOUSE_POS):
-                        pass
+                        self.play()
+                    if OPTION_BTN.check_for_input(MOUSE_POS):
+                        self.option()
+                    if QUIT_BTN.check_for_input(MOUSE_POS):
+                        pygame.quit()
+                        return
 
             pygame.display.update()
+            
+    def play(self):
+        pass
+    
+    
+    def option(self):
+        pass
