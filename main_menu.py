@@ -50,7 +50,7 @@ class MainMenu:
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BTN.check_for_input(MOUSE_POS):
-                        self.play()
+                        return self.play()
                     if OPTION_BTN.check_for_input(MOUSE_POS):
                         self.option()
                     if QUIT_BTN.check_for_input(MOUSE_POS):
@@ -60,7 +60,7 @@ class MainMenu:
             pygame.display.update()
             
     def play(self):
-        pass
+        return True
     
     
     def option(self):
