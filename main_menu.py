@@ -46,16 +46,14 @@ class MainMenu:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
+                    return "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BTN.check_for_input(MOUSE_POS):
-                        self.play()
+                        return "play"
                     if OPTION_BTN.check_for_input(MOUSE_POS):
-                        self.option()
+                        return "option"
                     if QUIT_BTN.check_for_input(MOUSE_POS):
-                        pygame.quit()
-                        return
+                        return "quit"
 
             pygame.display.update()
             

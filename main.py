@@ -66,15 +66,20 @@ run = True
 while run:
     clock.tick(27)
 
-    if game_running == False:
-        if menu_state == "main": 
-            if main_menu.main_menu(win=win):
-                game_running = True
+    if not game_running:
+        action = main_menu.main_menu(win=win)
+        if action == "play":
+            game_running = True
+            pygame.display.set_caption("PyGame")
+        elif action == "quit":
+            run = False
     else:
         redraw_game()
         
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.QUIT:
+            run = False
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 game_running = False
 
