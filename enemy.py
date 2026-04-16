@@ -72,9 +72,12 @@ class Enemies():
                 self.vel = self.vel * -1
                 self.walkcount = 0
 
-    def hit(self):  # collision with the bullet
+    def hit(self, bullet_type):  # collision with the bullet
         hit_sound.play()
         if self.health > 0:
-            self.health -= 10
+            if bullet_type == "basic_attack":
+                self.health -= 10
+            else:
+                self.health -= 1
         else:
             self.alive = False

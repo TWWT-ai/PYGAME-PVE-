@@ -42,7 +42,7 @@ down = pygame.image.load("images\\64x64\\top-down\\attack_5.png")
 frames_down = slicing(down, 4, 64, 64)
 
 bullet_sound = pygame.mixer.Sound("Sounds\\mixkit-little-cat-pain-meow-87.wav")
-hit_sound = pygame.mixer.Sound("Sounds\\anime-ahh.wav")
+hit_sound = pygame.mixer.Sound("Sounds\\fish-you-me-gas-station-clip.mp3")
 bg_music = pygame.mixer.music.load(
     "Sounds\\SSvid.net--Twinkle-Twinkle-Little-StarChildren-s-Song-Music-Box.mp3")
 pygame.mixer.music.play(-1)

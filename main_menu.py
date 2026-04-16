@@ -15,21 +15,21 @@ class MainMenu:
         MENU_RECT = MENU_FONT.render("Cat Adventure", True, (255, 0, 0))
         PLAY_BTN = Button(image=default_button,
                           x=self.width / 2,
-                          y=0 + 40,
+                          y=0 + 80,
                           text_input="Play",
                           base_colour=(255, 0, 0),
                           hovering_colour=(255, 0, 100))
         
         OPTION_BTN = Button(image=default_button,
                           x=self.width / 2,
-                          y=0 + 80,
+                          y=0 + 120,
                           text_input="Option",
                           base_colour=(255, 0, 0),
                           hovering_colour=(255, 0, 100))
         
         QUIT_BTN = Button(image=default_button,
                           x=self.width / 2,
-                          y=0 + 120,
+                          y=0 + 160,
                           text_input="Quit",
                           base_colour=(255, 0, 0),
                           hovering_colour=(255, 0, 100))
@@ -57,9 +57,3 @@ class MainMenu:
 
             pygame.display.update()
             
-    def play(self):
-        pass
-    
-    
-    def option(self):
-        pass

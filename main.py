@@ -104,7 +104,7 @@ while run:
                     if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
                         if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
                             if goblin.alive:
-                                goblin.hit()
+                                goblin.hit("basic_attack")
                                 score += 10
                                 bullets.pop(bullets.index(bullet))
                                 break
@@ -120,12 +120,12 @@ while run:
                     if abs(goblin.hitbox[1] - bullet.y) < goblin.hitbox[3]:
 
                         if bullet.facing == 1 and goblin.x > bullet.x:
-                            goblin.hit()
-                            score += 10
+                            goblin.hit("beam")
+                            score += 1
 
                         if bullet.facing == -1 and goblin.x < bullet.x:
-                            goblin.hit()
-                            score += 10
+                            goblin.hit("beam")
+                            score += 1
 
             bullet.life -= 1
             if bullet.life <= 0:
